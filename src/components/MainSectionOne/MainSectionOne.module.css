@@ -1,0 +1,69 @@
+.bodyMainOne{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.rowMain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.divImage{
+    background-color: #B2D8EB;
+    background-image: linear-gradient(160deg, #e9f2f7 0%, #B2D8EB 100%);
+    border-radius: 100%;
+    height: 20em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imageMain{
+    width: 300px;
+    
+}
+
+.colTitleMain{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: start;
+    gap: 20px;
+}
+
+.title{
+    font-weight: 700;
+    font-size: 35px;
+    padding: 0;
+    margin: 0;
+    color: #7EB3BF;
+}
+
+.subTitle{
+    color: #0000006b;
+    padding: 0;
+    margin: 0;
+}
+
+.spanMain{
+    color: #7EB3BF;
+    padding: 0;
+    margin: 0;
+}
+
+/* Media Query  */
+
+@media (max-width: 767px) {
+    .title{
+        text-align: center;
+        font-size: 30px;
+    }
+    .subTitle{
+        text-align: center;
+    }
+}
