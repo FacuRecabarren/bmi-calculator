@@ -61,7 +61,7 @@ const MainSectionThree = () =>{
                 />
             </div>
             <Carousel.Caption className={styles.caption}>
-                <h5 className={styles.title}>Género</h5>
+                <h5 className={styles.title}>Sexo</h5>
                 <p className={styles.subTitle}>El desarrollo y la composición de la grasa corporal de niñas y niños varían con la edad. En consecuencia, la edad y el género de un niño se consideran al evaluar su IMC.</p>
             </Carousel.Caption>
         </div>

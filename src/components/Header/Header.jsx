@@ -7,54 +7,77 @@ import styles from './Header.module.css';
 const Header = () => {
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
+  const [gender, setGender] = useState('');
   const [result, setResult] = useState('');
   const [idealWeight, setIdealWeight] = useState('');
 
   useEffect(() => {
     calculateBMI();
-  }, [weight, height]);
+  }, [weight, height, gender]);
 
+ 
   const inputOnChange = (event) => {
     const inputValue = event.target.value;
-    if (inputValue === '') {
-      setHeight('');
-      setWeight('');
-    } else if (!isNaN(inputValue)) {
+    if(!isNaN(inputValue)) {
       if (event.target.id === 'height') {
         setHeight(parseInt(inputValue));
-      } else {
+      } else if (event.target.id === 'weight') {
         setWeight(parseInt(inputValue));
       }
+    } else {
+      setGender(inputValue);
     }
   };
 
   const calculateBMI = () => {
-    if (weight > 0 && height > 0 && !isNaN(weight) && !isNaN(height)) {
+    if (weight > 0 && height > 0 && !isNaN(weight) && !isNaN(height) && gender !== '') {
       const heightInMeters = height / 100;
       const bmi = weight / (heightInMeters * heightInMeters);
       setResult(bmi.toFixed(2));
-      calculateIdealWeight(bmi);
+      if (gender === 'male') {
+        calculateIdealWeightMan(bmi);
+      } else {
+        calculateIdealWeightWoman(bmi);
+      }
     } else {
       setResult('');
     }
   };
 
-  const calculateIdealWeight = () => {
+  const calculateIdealWeightMan = () => {
     const lowerLimit = 18.5 * (height / 100) ** 2;
     const upperLimit = 24.9 * (height / 100) ** 2;
     setIdealWeight(`${lowerLimit.toFixed(2)} kg y ${upperLimit.toFixed(2)} kg`);
   };
 
+  const calculateIdealWeightWoman = () => {
+    const lowerLimit = 17.5 * (height / 100) ** 2;
+    const upperLimit = 23.9 * (height / 100) ** 2;
+    setIdealWeight(`${lowerLimit.toFixed(2)} kg y ${upperLimit.toFixed(2)} kg`);
+  };
+
   let healthStatus = '';
 
-  if (result < 18.5) {
-    healthStatus = 'bajo peso';
-  } else if (result < 24.9) {
-    healthStatus = 'peso saludable';
-  } else if (result < 29.9) {
-    healthStatus = 'sobrepeso';
+  if (gender === 'male') {
+    if (result < 18.5) {
+      healthStatus = 'bajo peso';
+    } else if (result < 24.9) {
+      healthStatus = 'peso saludable';
+    } else if (result < 29.9) {
+      healthStatus = 'sobrepeso';
+    } else {
+      healthStatus = 'obesidad';
+    }
   } else {
-    healthStatus = 'obesidad';
+    if (result < 17.5) {
+      healthStatus = 'bajo peso';
+    } else if (result < 23.9) {
+      healthStatus = 'peso saludable';
+    } else if (result < 28.9) {
+      healthStatus = 'sobrepeso';
+    } else {
+      healthStatus = 'obesidad';
+    }
   }
 
   return (
@@ -69,6 +92,20 @@ const Header = () => {
         </Col>
        
         <Col className={styles.colInputs} xs={10} md={5}>
+          <div>
+            <Form.Label className={styles.labelInput}>Sexo</Form.Label>
+            <Form.Select
+                className={styles.inputSelect}
+                onChange={inputOnChange}
+                name='gender'
+                id="gender"
+            >
+              <option disabled selected></option>
+              <option className={styles.options} name='male' value='male'>Masculino</option>
+              <option className={styles.options} name='female' value='female'>Femenino</option>
+            </Form.Select>
+          </div>
+
           <div className={styles.divPeso}>
             <Form.Label className={styles.labelInput}>Peso</Form.Label>
             <Form.Control
@@ -98,6 +135,7 @@ const Header = () => {
                 id="height"
             />
           </div>
+
           {result === '' || weight <= 0 || height <= 0 || isNaN(weight) || isNaN(height) ? (
             <div className={styles.divResult}>
               <h2 className={styles.titleResultFail}>¡Bienvenido!</h2>
